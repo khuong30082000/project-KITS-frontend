@@ -5,7 +5,7 @@ import github from "assets/img/Github.svg";
 import google from "assets/img/Google.svg";
 import eyeHide from "assets/img/eye-hide.svg";
 import eyeOpen from "assets/img/eye-openn.svg";
-import bannerLogin from "assets/img/bannerLoginn.svg";
+import bannerLogin from "assets/img/welcome-astronaut.svg";
 import { Logo } from "components/Logo";
 import bubble from "assets/img/bubble.png";
 
@@ -16,22 +16,15 @@ const StyledWrapperLogin = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background: linear-gradient(90deg, #ffffff 0%, #bbaaff 66.67%);
+  background: linear-gradient(90deg, #ffffff 0%, #4169da 66.67%);
   .container {
     margin: 0 auto;
-    width: 1440px;
+    width: 1280px;
   }
 
   .content-right {
-    /* width: 489px;
-    height: 849px;
-    background-image: url("../images/Rectangle\ 001.svg");
-    margin-left: auto;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: -1; */
-    /* margin-right: 20px; */
+    margin-top: 100px;
+    animation: float 2s infinite;
   }
 
   .content-top {
@@ -40,7 +33,7 @@ const StyledWrapperLogin = styled.div`
     background-color: #d9d9d9;
   }
   .content-left {
-    margin-top: 100px;
+    margin-top: 150px;
     margin-left: 100px;
   }
 
@@ -49,16 +42,10 @@ const StyledWrapperLogin = styled.div`
     justify-content: space-between;
     align-items: center;
     gap: 66px;
-
-    /* width: 1248px; */
-    /* height: 579px; */
-
-    /* z-index: 1; */
-    /* position: relative; */
   }
 
   .content-right img {
-    height: 100vh;
+    max-width: 100%;
   }
   .content-heading {
     font-size: 56px;
@@ -247,6 +234,16 @@ const StyledWrapperLogin = styled.div`
     }
   }
 
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-30px);
+    }
+  }
+
   .bubbles img:nth-child(1) {
     animation-delay: 2s;
   }
@@ -325,7 +322,6 @@ const Login = () => {
   return (
     <StyledWrapperLogin>
       <div className="container">
-        {/* <div className="content-top" /> */}
         <div className="content">
           <div className="content-left">
             <Logo mb={16.5} />
@@ -343,7 +339,7 @@ const Login = () => {
               <div className="content-password column">
                 <div className="label-password">
                   <label htmlFor="password">Password</label>
-                  <label htmlFor className="forgotpassword">
+                  <label htmlFor="forgotpassword" className="forgotpassword">
                     Forgot Password?
                   </label>
                 </div>
@@ -357,16 +353,14 @@ const Login = () => {
                   {show ? (
                     <img
                       src={eyeOpen}
-                      alt=""
-                      srcSet
+                      alt="fsafafa"
                       id="eye-hide"
                       onClick={handleClickEye}
                     />
                   ) : (
                     <img
                       src={eyeHide}
-                      alt=""
-                      srcSet
+                      alt="dsadad"
                       id="eye-hide"
                       onClick={handleClickEye}
                     />
