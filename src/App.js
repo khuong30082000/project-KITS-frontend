@@ -7,7 +7,8 @@ import "./App.css";
 import { Navigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { ThemeContextC } from "context/ThemeContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import RingLoader from "react-spinners/RingLoader";
 
 const lightTheme = {
   body: "#e5e5e5",
@@ -18,9 +19,18 @@ const darkTheme = {
 };
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const [color, setColor] = useState("#4169da");
   const context = useContext(ThemeContextC);
-
   const isDarkTheme = context.theme === "dark";
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
+
   // let element = useRoutes([
   //   { path: "/", element: <Home /> },
   //   { path: "about", element: <About /> },
@@ -29,16 +39,23 @@ function App() {
   // ]);
   // return <MainLayout>{element}</MainLayout>;
   return (
-    // <div className="app">
-    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <Routes>
-        <Route exact path="/" element={<Navigate to="/dashboard" />}></Route>
-        <Route path="/dashboard/*" element={<Dashboard />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </ThemeProvider>
+    <>
+      {loading ? (
+        <div className="App">
+          <RingLoader color={color} loading={loading} size={300} />
+        </div>
+      ) : (
+        <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+          <Routes>
+            <Route exact path="/" element={<Navigate to="/login" />}></Route>
+            <Route path="/dashboard/*" element={<Dashboard />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </ThemeProvider>
+      )}
+    </>
   );
 }
 
