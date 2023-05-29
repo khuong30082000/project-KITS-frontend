@@ -337,26 +337,14 @@ const StyledWrapperLogin = styled.div`
   }
 `;
 
-const StyledUsernameError = styled.div`
-  visibility: ${(props) => (props.error ? "visible" : "hidden")};
-  opacity: ${(props) => (props.error ? 1 : 0)};
-  height: 20px;
-`;
-
-const StyledPasswordError = styled.div`
-  visibility: ${(props) => (props.error ? "visible" : "hidden")};
-  opacity: ${(props) => (props.error ? 1 : 0)};
-  margin-bottom: 20px;
-  height: 20px;
-`;
-
 const StyledLoginErrorPassword = styled.div`
   height: 10px;
   visibility: ${(props) => (props.error ? "visible" : "hidden")};
   opacity: ${(props) => (props.error ? 1 : 0)};
   position: absolute;
   color: red;
-  top: 190px;
+  top: 100px;
+  left: 150px;
 `;
 
 const Login = () => {
@@ -376,7 +364,7 @@ const Login = () => {
       return { username: "KHÔNG ĐÚNG TÀI KHOẢN" };
     }
     if (values.password !== "123") {
-      return { [FORM_ERROR]: "SAI MẬT KHẨU CMNR" };
+      return { [FORM_ERROR]: "SAI MẬT KHẨU ROI" };
     }
     navigate("/dashboard");
   };
@@ -476,11 +464,15 @@ const Login = () => {
                           </div>
                         </div>
 
-                        {/* {meta.error && meta.touched && ( */}
-                        {/* <div error={meta.error && meta.touched}>
+                        <div
+                          className={
+                            meta.error && meta.touched
+                              ? "visible c"
+                              : "hitden c"
+                          }
+                        >
                           {meta.error}
-                        </div> */}
-                        {/* )} */}
+                        </div>
                       </div>
                     )}
                   </Field>
