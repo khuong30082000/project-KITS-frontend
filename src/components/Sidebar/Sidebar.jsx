@@ -241,19 +241,9 @@ const NavItem = ({ text, path, src, className }) => {
     </StyledNavItem>
   );
 };
-const lightTheme = {
-  body: "red",
-};
-
-const darkTheme = {
-  body: "black",
-};
 
 export const Sidebar = () => {
-  // const isDarkTheme = theme === "dark";
-
   const context = useContext(ThemeContextC);
-  console.log(context.theme);
 
   const classNameLight = context.theme === "light" ? "btn-light" : "btn-dark";
   const classNameDark = context.theme === "light" ? "btn-dark" : "btn-light";
@@ -264,16 +254,16 @@ export const Sidebar = () => {
       <Logo mb={54} />
       <div className="nav">
         <NavItem text="Dashboard" path="/dashboard" src={icon1}></NavItem>
-        <NavItem text="Market" path="/about" src={icon2}></NavItem>
-        <NavItem text="Active Bids" path="/login" src={icon3}></NavItem>
+        <NavItem text="Market" path="/Market" src={icon2}></NavItem>
+        <NavItem text="Active Bids" path="/activebid" src={icon3}></NavItem>
       </div>
       <div className="nav-second">
         <div className="nav-second-heading">PROFILE</div>
-        <NavItem text="My Portfolio" path="/" src={icon4}></NavItem>
-        <NavItem text="Wallet" path="/" src={icon5}></NavItem>
-        <NavItem text="Favourites" path="/" src={icon6}></NavItem>
-        <NavItem text=" History" path="/" src={icon8}></NavItem>
-        <NavItem text="Settings" path="/" src={icon7}></NavItem>
+        <NavItem text="My Portfolio" path="/portfolio" src={icon4}></NavItem>
+        <NavItem text="Wallet" path="/wallet" src={icon5}></NavItem>
+        <NavItem text="Favourites" path="/favourites" src={icon6}></NavItem>
+        <NavItem text=" History" path="/historty" src={icon8}></NavItem>
+        <NavItem text="Settings" path="/settings" src={icon7}></NavItem>
       </div>
       <div className="nav-third">
         <div className="nav-second-heading">ORTHER</div>

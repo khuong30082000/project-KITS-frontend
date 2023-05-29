@@ -8,6 +8,10 @@ import eyeOpen from "assets/img/eye-openn.svg";
 import bannerLogin from "assets/img/welcome-astronaut.svg";
 import { Logo } from "components/Logo";
 import bubble from "assets/img/bubble.png";
+import { useNavigate } from "react-router-dom";
+import { Form, Field } from "react-final-form";
+import { FORM_ERROR } from "final-form";
+import { render } from "react-dom";
 
 const StyledWrapperLogin = styled.div`
   background-color: #fff;
@@ -79,8 +83,7 @@ const StyledWrapperLogin = styled.div`
   }
 
   .content-password {
-    margin-top: 20px;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     position: relative;
   }
 
@@ -93,7 +96,6 @@ const StyledWrapperLogin = styled.div`
   }
 
   .btn-login {
-    margin: 0 auto;
     width: 126px;
     height: 37px;
     color: #fff;
@@ -104,14 +106,20 @@ const StyledWrapperLogin = styled.div`
     font-size: 16px;
     line-height: 21px;
     display: flex;
-    justify-content: center;
+    text-align: center;
+    display: inline-block;
     font-feature-settings: "salt" on;
-    align-items: center;
-    padding: 8px 14px;
-
-    line-height: 24px;
-
     border-radius: 23px;
+    z-index: 100000;
+  }
+  .reset {
+    background-color: #d9d9d9;
+  }
+  .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
   }
 
   /* .btn-login::before {
@@ -209,6 +217,7 @@ const StyledWrapperLogin = styled.div`
     justify-content: space-around;
     position: absolute;
     bottom: 0;
+    z-index: -10000;
   }
 
   @keyframes back {
@@ -310,13 +319,66 @@ const StyledWrapperLogin = styled.div`
       margin-top: 50px;
     }
   }
+  .p {
+    position: relative;
+  }
+  .visible {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .hitden {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .c {
+    height: 20px;
+  }
+`;
+
+const StyledUsernameError = styled.div`
+  visibility: ${(props) => (props.error ? "visible" : "hidden")};
+  opacity: ${(props) => (props.error ? 1 : 0)};
+  height: 20px;
+`;
+
+const StyledPasswordError = styled.div`
+  visibility: ${(props) => (props.error ? "visible" : "hidden")};
+  opacity: ${(props) => (props.error ? 1 : 0)};
+  margin-bottom: 20px;
+  height: 20px;
+`;
+
+const StyledLoginErrorPassword = styled.div`
+  height: 10px;
+  visibility: ${(props) => (props.error ? "visible" : "hidden")};
+  opacity: ${(props) => (props.error ? 1 : 0)};
+  position: absolute;
+  color: red;
+  top: 190px;
 `;
 
 const Login = () => {
   const [show, setShow] = useState(false);
+  // const [errorMessages, setErrorMessages] = useState({});
+  // const [isSubmitted, setIsSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const handleClickEye = () => {
     setShow(!show);
+  };
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const onSubmit = async (values) => {
+    await sleep(300);
+    if (values.username !== "khuong") {
+      return { username: "KHÔNG ĐÚNG TÀI KHOẢN" };
+    }
+    if (values.password !== "123") {
+      return { [FORM_ERROR]: "SAI MẬT KHẨU CMNR" };
+    }
+    navigate("/dashboard");
   };
 
   return (
@@ -326,63 +388,141 @@ const Login = () => {
           <div className="content-left">
             <Logo mb={16.5} />
             <div className="content-heading">Log in</div>
-            <form className="form-login">
-              <div className="content-username column">
-                <label htmlFor="username">Username</label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  placeholder="username"
-                />
-              </div>
-              <div className="content-password column">
-                <div className="label-password">
-                  <label htmlFor="password">Password</label>
-                  <label htmlFor="forgotpassword" className="forgotpassword">
-                    Forgot Password?
-                  </label>
-                </div>
-                <input
-                  type={show ? "text" : "password"}
-                  id="password"
-                  name="password"
-                  placeholder="enter your password"
-                />
-                <div className="input-icons">
-                  {show ? (
-                    <img
-                      src={eyeOpen}
-                      alt="fsafafa"
-                      id="eye-hide"
-                      onClick={handleClickEye}
-                    />
-                  ) : (
-                    <img
-                      src={eyeHide}
-                      alt="dsadad"
-                      id="eye-hide"
-                      onClick={handleClickEye}
-                    />
+            <Form
+              onSubmit={onSubmit}
+              validate={(values) => {
+                const errors = {};
+                if (!values.username) {
+                  errors.username = "không được bỏ trống";
+                }
+                if (!values.password) {
+                  errors.password = "không được bỏ trống";
+                }
+                return errors;
+              }}
+              render={({
+                submitError,
+                handleSubmit,
+                form,
+                submitting,
+                pristine,
+                values,
+              }) => (
+                <form onSubmit={handleSubmit} className="p">
+                  <Field name="username">
+                    {({ input, meta }) => (
+                      <div>
+                        <div className="content-username column">
+                          <label htmlFor="username">Username</label>
+                          <input
+                            {...input}
+                            type="text"
+                            // value={username}
+                            placeholder="username"
+                            // onChange={(e) => setUserName(e.target.value)}
+                          />
+                        </div>
+                        {/* {(meta.error || meta.submitError) && meta.touched && ( */}
+
+                        <div
+                          className={
+                            (meta.error || meta.submitError) && meta.touched
+                              ? "visible c"
+                              : "hitden c"
+                          }
+                        >
+                          {meta.error || meta.submitError}
+                        </div>
+                        {/* )} */}
+                      </div>
+                    )}
+                  </Field>
+                  <Field name="password">
+                    {({ input, meta }) => (
+                      <div>
+                        <div className="content-password column">
+                          <div className="label-password">
+                            <label htmlFor="password">Password</label>
+                            <label
+                              htmlFor="forgotpassword"
+                              className="forgotpassword"
+                            >
+                              Forgot Password?
+                            </label>
+                          </div>
+                          <input
+                            type={show ? "text" : "password"}
+                            {...input}
+                            placeholder="enter your password"
+                          />
+                          {/* {meta.error && meta.touched && ( */}
+                          {/* )} */}
+                          <div className="input-icons">
+                            {show ? (
+                              <img
+                                src={eyeOpen}
+                                alt="fsafafa"
+                                id="eye-hide"
+                                onClick={handleClickEye}
+                              />
+                            ) : (
+                              <img
+                                src={eyeHide}
+                                alt="dsadad"
+                                id="eye-hide"
+                                onClick={handleClickEye}
+                              />
+                            )}
+                          </div>
+                        </div>
+
+                        {/* {meta.error && meta.touched && ( */}
+                        {/* <div error={meta.error && meta.touched}>
+                          {meta.error}
+                        </div> */}
+                        {/* )} */}
+                      </div>
+                    )}
+                  </Field>
+                  {submitError && (
+                    <StyledLoginErrorPassword
+                      error={submitError}
+                      className="error"
+                    >
+                      {submitError}
+                    </StyledLoginErrorPassword>
                   )}
-                  {/* <img src="images/eye-open.png" alt="" srcset="" /> */}
-                </div>
-              </div>
-              <div className="btn btn-login" id="login">
-                Login In
-              </div>
-            </form>
+                  <div className="buttons">
+                    <input
+                      className="btn btn-login"
+                      type="submit"
+                      value="Login"
+                      disabled={submitting}
+                    />
+                    <input
+                      className="btn btn-login reset"
+                      type="submit"
+                      value="Reset"
+                      onClick={form.reset}
+                      disabled={submitting || pristine}
+                    />
+                  </div>
+                  {/* <pre>{JSON.stringify(values, 0, 2)}</pre> */}
+                </form>
+              )}
+            />
+
             <div className="content-bottom">
               <div className="content-bottom-top">or continues with</div>
               <div className="content-bottom-social">
                 <div className="content-social-item">
-                  <img src={google} alt="" srcSet />
+                  <img src={google} alt="" />
                 </div>
                 <div className="content-social-item">
-                  <img src={github} alt="" srcSet />
+                  <img src={github} alt="" />
                 </div>
                 <div className="content-social-item">
-                  <img src={facebook} alt="" srcSet />
+                  <img src={facebook} alt="" />
                 </div>
               </div>
               <div className="content-bottom-footer">
@@ -397,14 +537,14 @@ const Login = () => {
         </div>
       </div>
       <div className="bubbles">
-        <img src={bubble} alt="" srcSet />
-        <img src={bubble} alt="" srcSet />
-        <img src={bubble} alt="" srcSet />
-        <img src={bubble} alt="" srcSet />
-        <img src={bubble} alt="" srcSet />
-        <img src={bubble} alt="" srcSet />
-        <img src={bubble} alt="" srcSet />
-        <img src={bubble} alt="" srcSet />
+        <img src={bubble} alt="bubble" />
+        <img src={bubble} alt="bubble" />
+        <img src={bubble} alt="bubble" />
+        <img src={bubble} alt="bubble" />
+        <img src={bubble} alt="bubble" />
+        <img src={bubble} alt="bubble" />
+        <img src={bubble} alt="bubble" />
+        <img src={bubble} alt="bubble" />
       </div>
     </StyledWrapperLogin>
   );

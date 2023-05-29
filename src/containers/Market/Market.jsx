@@ -1,12 +1,12 @@
 import React from "react";
 import MainLayout from "layouts/MainLayout/MainLayout";
 
-const About = () => {
+const Market = () => {
   return (
     <MainLayout>
-      <div>About</div>
+      <div>Market</div>
     </MainLayout>
   );
 };
 
-export default About;
+export default Market;

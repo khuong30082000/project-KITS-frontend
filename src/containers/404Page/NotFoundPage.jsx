@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import MainLayout from "layouts/MainLayout/MainLayout";
+import React from "react";
 
 const NotFoundPage = () => {
-  // const navigate = useNavigate();
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     navigate();
-  //   }, 2000);
-  // }, [navigate]);
-  // return <Navigate to="/dashboard" />;
-
-  return <div>Page not Found</div>;
+  return (
+    <MainLayout>
+      <div>PAGE NOT FOUND</div>
+    </MainLayout>
+  );
 };
 
 export default NotFoundPage;

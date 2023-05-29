@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "containers/Dashboard";
-import About from "containers/About";
+import Market from "containers/Market";
 import Login from "containers/Login";
 import NotFoundPage from "containers/404Page";
 import "./App.css";
@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { ThemeContextC } from "context/ThemeContext";
 import { useContext, useEffect, useState } from "react";
-import RingLoader from "react-spinners/RingLoader";
+import { Skeleton } from "components/Skeleton/Skeleton";
 
 const lightTheme = {
   body: "#e5e5e5",
@@ -20,7 +20,7 @@ const darkTheme = {
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [color, setColor] = useState("#4169da");
+  // const [color, setColor] = useState("#4169da");
   const context = useContext(ThemeContextC);
   const isDarkTheme = context.theme === "dark";
 
@@ -28,7 +28,7 @@ function App() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 5000);
   }, []);
 
   // let element = useRoutes([
@@ -41,15 +41,13 @@ function App() {
   return (
     <>
       {loading ? (
-        <div className="App">
-          <RingLoader color={color} loading={loading} size={300} />
-        </div>
+        <Skeleton />
       ) : (
         <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
           <Routes>
             <Route exact path="/" element={<Navigate to="/login" />}></Route>
             <Route path="/dashboard/*" element={<Dashboard />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/market" element={<Market />} />
             <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
